@@ -1,11 +1,12 @@
 import type { RouteProps } from "react-router-dom";
 
+import CreateProject from "lib/pages/create-project";
 import Home from "lib/pages/home";
 import Login from "lib/pages/login";
 import Profile from "lib/pages/profile";
 import Register from "lib/pages/register";
+
 import Projects from "./lib/pages/projects";
-import CreateProject from "lib/pages/create-project";
 
 export const routes: Array<RouteProps> = [
   {

@@ -1,5 +1,4 @@
 import { Box, Flex, Heading, Stack, Button } from "@chakra-ui/react";
-import { AiFillGithub } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 import ThemeToggle from "./ThemeToggle";

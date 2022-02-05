@@ -1,7 +1,8 @@
 import { Grid } from "@chakra-ui/react";
 
-import LoginPage from "./components/SomeImage";
 import HeaderSS from "lib/pages/home/components/HeaderSS";
+
+import LoginPage from "./components/SomeImage";
 
 const Home = () => {
   return (

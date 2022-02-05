@@ -1,4 +1,5 @@
 import { Grid } from "@chakra-ui/react";
+
 import HeaderSS from "../home/components/HeaderSS";
 
 import RegisterPage from "./components/SomeImage";

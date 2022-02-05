@@ -2,9 +2,6 @@ import { ArrowRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
-  Image,
-  HStack,
-  Link,
   useColorModeValue,
   Heading,
   Text,
@@ -13,12 +10,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-
-const IMAGE =
-  "https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80";
+import { useCookies } from "react-cookie";
 
 const SomeImage = () => {
   const [books, setBooks] = useState(null);
+  // const [cookies, setCookie] = useCookies();
+  // const [usernameCookie, setUsernameCookie] = useCookies();
 
   // + adding the use
   useEffect(() => {
@@ -26,16 +23,22 @@ const SomeImage = () => {
 
     // we will use async/await to fetch this data
     async function getData() {
-      const response = await fetch(
-        "http://localhost:8080/api/u/carrot/projects",
-        {
-          method: "GET",
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjQ5NDlmNDYtYzk3My00NjQxLTkyNmYtYjE5NmZiMTk3ZjgyIiwicm9sZSI6InVzZXIiLCJleHAiOjE2NTI2MjA5ODd9.mQdjufC7IUQIs7ypnJnHGsXXb-pmCD-N9v7zfmZhfXA",
-          },
-        }
+      // const { token } = cookies.token;
+      const token = document.cookie.replace(
+        /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
+        "$1"
       );
+      const username = document.cookie.replace(
+        /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
+        "$1"
+      );
+      const URI = `http://localhost:8080/api/u/${username}/projects`;
+      const response = await fetch(URI, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const d = await response.json();
       console.log(d);
 

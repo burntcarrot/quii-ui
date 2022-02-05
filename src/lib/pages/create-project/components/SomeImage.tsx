@@ -13,39 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
+import { useCookies } from "react-cookie";
 
 import ErrorMessage from "./ErrorMessage";
-
-const userLogin = async ({ username, projectName, description, github }) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      const response = await fetch(
-        "http://localhost:8080/api/u/carrot/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjQ5NDlmNDYtYzk3My00NjQxLTkyNmYtYjE5NmZiMTk3ZjgyIiwicm9sZSI6InVzZXIiLCJleHAiOjE2NTI2MjA5ODd9.mQdjufC7IUQIs7ypnJnHGsXXb-pmCD-N9v7zfmZhfXA",
-          },
-          body: JSON.stringify({
-            username,
-            name: projectName,
-            description,
-            github_url: github,
-          }),
-        }
-      );
-      const data = await response.json();
-      console.log(data);
-      if (data !== undefined) {
-        resolve();
-      } else {
-        reject();
-      }
-    }, 3000);
-  });
-};
 
 const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
@@ -70,27 +40,64 @@ const useWindowSize = () => {
 };
 
 export default function RegisterPage() {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
   const [github, setGithub] = useState("");
   const [error, setError] = useState("");
   const [created, setCreated] = useState(false);
+  // const [cookies, setCookie] = useCookies(["token"]);
+  const username = document.cookie.replace(
+    /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
+    "$1"
+  );
 
   const { width, height } = useWindowSize();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const projectURL = `/projects/${projectName}`;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await userLogin({ username, projectName, description, github });
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(async () => {
+          const token = document.cookie.replace(
+            /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
+            "$1"
+          );
+          const URI = `http://localhost:8080/api/u/${username}/create`;
+          const response = await fetch(URI, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              username,
+              name: projectName,
+              description,
+              github_url: github,
+            }),
+          });
+          const data = await response.json();
+          // eslint-disable-next-line no-console
+          console.log(data);
+          if (data !== undefined) {
+            resolve();
+          } else {
+            reject();
+          }
+        }, 3000);
+      });
+
       setCreated(true);
       // window.location = "/projects";
+      // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
       setError("Invalid username or password");
-      setUsername("");
+      // setUsername("");
       setProjectName("");
       setDescription("");
       setGithub("");
@@ -141,6 +148,7 @@ export default function RegisterPage() {
             </Stack>
             <Box
               rounded="lg"
+              // eslint-disable-next-line react-hooks/rules-of-hooks
               bg={useColorModeValue("white", "gray.700")}
               boxShadow="lg"
               p={8}
@@ -148,7 +156,7 @@ export default function RegisterPage() {
               <form onSubmit={handleSubmit}>
                 {error && <ErrorMessage message={error} />}
                 <Stack spacing={4}>
-                  <FormControl id="username" isRequired>
+                  {/* <FormControl id="username" isRequired>
                     <FormLabel>Username</FormLabel>
                     <Input
                       type="text"
@@ -156,7 +164,7 @@ export default function RegisterPage() {
                         setUsername(event.currentTarget.value)
                       }
                     />
-                  </FormControl>
+                  </FormControl> */}
                   <FormControl id="projectName" isRequired>
                     <FormLabel>Project Name</FormLabel>
                     <Input

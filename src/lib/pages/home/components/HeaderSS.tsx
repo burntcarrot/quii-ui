@@ -12,7 +12,6 @@ import {
 
 import ThemeToggle from "../../../components/layout/ThemeToggle";
 
-
 const HeaderSS = () => {
   return (
     <Flex
