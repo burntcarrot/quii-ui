@@ -19,9 +19,9 @@ import {
 } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 import ThemeToggle from "lib/components/layout/ThemeToggle";
-import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const Links = ["pm"];
 
@@ -54,12 +54,14 @@ const Nav = () => {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems="center">
-          <Heading as="h1" fontSize={24}>
+          <Heading as="a" fontSize={24} href="/">
             pm
           </Heading>
         </HStack>
         <Flex alignItems="center">
           <Button
+            as="a"
+            href="/create"
             variant="solid"
             colorScheme="teal"
             size="sm"

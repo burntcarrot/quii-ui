@@ -23,14 +23,12 @@ const HeaderSS = () => {
       justifyContent="center"
       gridGap={2}
     >
-      <Link to="/">
-        <Heading as="h1" size="lg">
-          <Flex marginY={4} justifyContent="center" gridGap={2}>
-            {/* <AiFillGithub /> */}
-            pm
-          </Flex>
-        </Heading>
-      </Link>
+      <Heading as="a" size="lg" href="/">
+        <Flex marginY={4} justifyContent="center" gridGap={2}>
+          {/* <AiFillGithub /> */}
+          pm
+        </Flex>
+      </Heading>
 
       <Box marginLeft="auto">
         <Stack

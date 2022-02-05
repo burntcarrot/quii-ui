@@ -9,9 +9,7 @@ const SomeText = () => {
         Projects
         {/* <Icon as={AiFillCalendar} /> */}
       </Heading>
-      <Text>
-        Here are your projects:
-      </Text>
+      <Text>Here are your projects:</Text>
     </Box>
   );
 };
