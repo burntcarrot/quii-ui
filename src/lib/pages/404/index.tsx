@@ -16,18 +16,15 @@ const Page404 = () => {
 
   return (
     <Grid gap={4} textAlign="center">
-      <Heading>Page not Found</Heading>
+      <Heading></Heading>
 
-      <Box maxWidth={[280, 400]} marginX="auto">
-        <Image width={400} src="/assets/404 Error-rafiki.svg" />
-        <Link fontSize="xs" href="https://stories.freepik.com/web" isExternal>
-          Illustration by Freepik Stories
-        </Link>
+      <Box maxWidth={[400, 600]} marginX="auto">
+        <Text fontWeight={600} fontSize={"2xl"}>Meet quii. You went the wrong way.</Text>
+        <Text fontSize={256}>🐥</Text>
       </Box>
 
       <Box>
-        <Text>It&apos;s Okay!</Text>
-        <Button onClick={handleBackToHome}>Let&apos;s Head Back</Button>
+        <Button onClick={handleBackToHome} bg="#FF007A" colorScheme={"pink"}>Oi! Take me back!</Button>
       </Box>
     </Grid>
   );

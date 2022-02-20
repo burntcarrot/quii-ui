@@ -1,25 +1,21 @@
-import { ArrowRightIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Box,
   FormControl,
   FormLabel,
-  FormHelperText,
-  FormErrorMessage,
   Input,
-  InputGroup,
-  InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
   useColorModeValue,
-  Link,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Confetti from "react-confetti";
 
-import ErrorMessage from "lib/pages/create-project/components/ErrorMessage";
+import ErrorMessage from "./ErrorMessage";
 
 const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
@@ -44,16 +40,23 @@ const useWindowSize = () => {
 };
 
 export default function RegisterPage() {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [taskName, setTaskName] = useState("");
+  const [type, setType] = useState("");
+  const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [created, setCreated] = useState(false);
+  // const [cookies, setCookie] = useCookies(["token"]);
+  const username = document.cookie.replace(
+    /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
+    "$1"
+  );
+
+  const projectParams = useParams();
+
   const { width, height } = useWindowSize();
 
-  const isError = password.length < 8;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const projectURL = `/projects/${projectName}`;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,20 +64,36 @@ export default function RegisterPage() {
     try {
       await new Promise<void>((resolve, reject) => {
         setTimeout(async () => {
-          const response = await fetch("http://localhost:8080/api/register", {
+          const token = document.cookie.replace(
+            /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
+            "$1"
+          );
+
+          const URI = `http://localhost:8080/api/u/${username}/projects/${projectParams.projectName}/tasks/new`;
+          const body_post = JSON.stringify({
+            username,
+            project_name: projectParams.projectName,
+            name: taskName,
+            type: type,
+            status: status,
+          });
+          const response = await fetch(URI, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               username,
-              email,
-              password,
-              role: "user",
+              project_name: projectParams.projectName,
+              name: taskName,
+              type: type,
+              status: status,
             }),
           });
           const data = await response.json();
           // eslint-disable-next-line no-console
+          console.log(body_post);
           console.log(data);
           if (data !== undefined) {
             resolve();
@@ -89,9 +108,9 @@ export default function RegisterPage() {
       // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
       setError("Invalid username or password");
-      setUsername("");
-      setEmail("");
-      setPassword("");
+      setTaskName("");
+      setType("");
+      setStatus("");
     }
   };
 
@@ -102,15 +121,15 @@ export default function RegisterPage() {
       justify="center"
       bg={useColorModeValue("white", "gray.800")}
     >
-      <Stack align="center" spacing={8} mx="auto" maxW="lg" py={12} px={6}>
+      <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
         {created ? (
           <>
             <Confetti width={width} height={height} />
             <Heading fontSize="4xl" textAlign="center">
-              Congratulations!
+              Woohoo!
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Welcome to PM! 🥳
+              You just a created a new project! 🥳
             </Text>
             <Button
               as="a"
@@ -120,24 +139,26 @@ export default function RegisterPage() {
               _hover={{
                 bg: "pink.500",
               }}
-              href="/login"
+              // TODO: use project URL here
+              href="/projects"
               rightIcon={<ArrowRightIcon />}
             >
-              Login and start your journey
+              Take me to the task
             </Button>
           </>
         ) : (
-          <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
+          <>
             <Stack align="center">
               <Heading fontSize="4xl" textAlign="center">
-                Sign up
+                Create Task
               </Heading>
               <Text fontSize="lg" color="gray.600">
-                to get access to all of our features 🐥
+                Create a new task ✌️
               </Text>
             </Stack>
             <Box
               rounded="lg"
+              // eslint-disable-next-line react-hooks/rules-of-hooks
               bg={useColorModeValue("white", "gray.700")}
               boxShadow="lg"
               p={8}
@@ -145,57 +166,33 @@ export default function RegisterPage() {
               <form onSubmit={handleSubmit}>
                 {error && <ErrorMessage message={error} />}
                 <Stack spacing={4}>
-                  <FormControl id="username" isRequired>
-                    <FormLabel>Username</FormLabel>
+                  <FormControl id="taskName" isRequired>
+                    <FormLabel>Task Name</FormLabel>
                     <Input
                       type="text"
                       onChange={(event) =>
-                        setUsername(event.currentTarget.value)
+                        setTaskName(event.currentTarget.value)
                       }
                     />
                   </FormControl>
-                  <FormControl id="email" isRequired>
-                    <FormLabel>Email address</FormLabel>
+                  <FormControl id="type" isRequired>
+                    <FormLabel>Task Type</FormLabel>
                     <Input
-                      type="email"
-                      onChange={(event) => setEmail(event.currentTarget.value)}
+                      type="text"
+                      onChange={(event) =>
+                        setType(event.currentTarget.value)
+                      }
                     />
                   </FormControl>
-                  <FormControl id="password" isRequired isInvalid={isError}>
-                    <FormLabel>Password</FormLabel>
-                    <InputGroup>
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        onChange={(event) =>
-                          setPassword(event.currentTarget.value)
-                        }
-                      />
-                      <InputRightElement h="full">
-                        <Button
-                          variant="ghost"
-                          onClick={() =>
-                            setShowPassword((showPassword) => !showPassword)
-                          }
-                        >
-                          {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                        </Button>
-                      </InputRightElement>
-                    </InputGroup>
-                    {!isError ? (
-                      <FormHelperText>
-                        Password length should be minimum 8 characters.
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>
-                        Failed to set password. Remember: Password length should
-                        be minimum 8 characters.
-                      </FormErrorMessage>
-                    )}
+                  <FormControl id="status" isRequired>
+                    <FormLabel>Task Status</FormLabel>
+                    <Input
+                      type="text"
+                      onChange={(event) => setStatus(event.currentTarget.value)}
+                    />
                   </FormControl>
-
                   <Stack spacing={10} pt={2}>
                     <Button
-                      type="submit"
                       loadingText="Submitting"
                       size="lg"
                       bg="blue.400"
@@ -203,19 +200,15 @@ export default function RegisterPage() {
                       _hover={{
                         bg: "blue.500",
                       }}
+                      type="submit"
                     >
-                      Sign up
+                      Create
                     </Button>
-                  </Stack>
-                  <Stack pt={6}>
-                    <Text align="center">
-                      Already a user? <Link color="blue.400">Login</Link>
-                    </Text>
                   </Stack>
                 </Stack>
               </form>
             </Box>
-          </Stack>
+          </>
         )}
       </Stack>
     </Flex>

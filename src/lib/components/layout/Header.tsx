@@ -17,7 +17,7 @@ const Header = () => {
         <Heading as="h1" size="lg">
           <Flex marginY={4} justifyContent="center" gridGap={2}>
             {/* <AiFillGithub /> */}
-            pm
+            moxie.
           </Flex>
         </Heading>
       </Link>

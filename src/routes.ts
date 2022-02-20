@@ -7,6 +7,10 @@ import Profile from "lib/pages/profile";
 import Register from "lib/pages/register";
 
 import Projects from "./lib/pages/projects";
+import GetProject from "lib/pages/get-project";
+import GetTask from "lib/pages/get-tasks";
+import CreateTask from "lib/pages/create-task";
+import GetTaskByID from "lib/pages/get-task-by-id";
 
 export const routes: Array<RouteProps> = [
   {
@@ -32,6 +36,22 @@ export const routes: Array<RouteProps> = [
   {
     path: "/create",
     component: CreateProject,
+  },
+  {
+    path: "/projects/:projectName",
+    component: GetProject,
+  },
+  {
+    path: "/projects/:projectName/tasks",
+    component: GetTask,
+  },
+  {
+    path: "/projects/:projectName/tasks/:taskID",
+    component: GetTaskByID,
+  },
+  {
+    path: "/projects/:projectName/tasks/new",
+    component: CreateTask,
   },
 ];
 

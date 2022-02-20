@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from "@chakra-ui/icons";
+/* eslint-disable react/jsx-no-useless-fragment */
 import {
   Box,
   Flex,
@@ -9,19 +9,18 @@ import {
   Center,
   Button,
 } from "@chakra-ui/react";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 
 const SomeImage = () => {
   const [books, setBooks] = useState(null);
-  // const [cookies, setCookie] = useCookies();
-  // const [usernameCookie, setUsernameCookie] = useCookies();
+  const projectParams = useParams();
 
   // + adding the use
   useEffect(() => {
     getData();
 
-    // we will use async/await to fetch this data
     async function getData() {
       // const { token } = cookies.token;
       const token = document.cookie.replace(
@@ -32,7 +31,8 @@ const SomeImage = () => {
         /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
         "$1"
       );
-      const URI = `http://localhost:8080/api/u/${username}/projects`;
+
+      const URI = `http://localhost:8080/api/u/${username}/projects/${projectParams.projectName}/tasks/${projectParams.taskID}`;
       const response = await fetch(URI, {
         method: "GET",
         headers: {
@@ -41,11 +41,9 @@ const SomeImage = () => {
       });
       const d = await response.json();
       console.log(d);
-
-      // store the data into our books variable
       setBooks(d.data);
     }
-  }, []);
+  }, [projectParams.projectName, projectParams.taskID]);
 
   return (
     <>
@@ -74,8 +72,8 @@ const SomeImage = () => {
                     {/* <HStack spacing={"auto"} justifyContent="space-between" alignItems="center"> */}
                     <Heading
                       pr={5}
-                      fontSize="xl"
                       color={useColorModeValue("#7f00ff", "white")}
+                      fontSize="xl"
                       fontFamily="body"
                       fontWeight={400}
                     >
@@ -86,22 +84,15 @@ const SomeImage = () => {
                       fontSize="xl"
                       color={useColorModeValue("#7f00ff", "white")}
                     >
-                      {book.description}
+                      {book.type}
                     </Text>
-                    <Button
-                      as="a"
-                      size="sm"
-                      bg="#FF007A"
-                      color="white"
-                      _hover={{
-                        bg: "FF007A",
-                      }}
-                      // TODO: use project URL here
-                      href="/projects/"
-                      rightIcon={<ArrowRightIcon />}
+                    <Text
+                      fontWeight={400}
+                      fontSize="l"
+                      color={useColorModeValue("#7f00ff", "white")}
                     >
-                      Open
-                    </Button>
+                      {book.status}
+                    </Text>
                   </Flex>
                   {/* </HStack> */}
                 </Stack>

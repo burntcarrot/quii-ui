@@ -22,7 +22,7 @@ const SomeImage = () => {
     async function getData() {
       const response = await fetch(
         // "https://www.anapioficeandfire.com/api/books"
-        "http://localhost:8080/api/u/carrot"
+        "http://localhost:8080/api/profile/burntcarrot"
       );
       const data = await response.json();
       console.log(data);

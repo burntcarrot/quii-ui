@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from "@chakra-ui/icons";
+/* eslint-disable react/jsx-no-useless-fragment */
 import {
   Box,
   Flex,
@@ -9,19 +9,18 @@ import {
   Center,
   Button,
 } from "@chakra-ui/react";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 
 const SomeImage = () => {
   const [books, setBooks] = useState(null);
-  // const [cookies, setCookie] = useCookies();
-  // const [usernameCookie, setUsernameCookie] = useCookies();
+  const projectParams = useParams();
 
   // + adding the use
   useEffect(() => {
     getData();
 
-    // we will use async/await to fetch this data
     async function getData() {
       // const { token } = cookies.token;
       const token = document.cookie.replace(
@@ -32,7 +31,8 @@ const SomeImage = () => {
         /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
         "$1"
       );
-      const URI = `http://localhost:8080/api/u/${username}/projects`;
+
+      const URI = `http://localhost:8080/api/u/${username}/projects/${projectParams.projectName}/tasks`;
       const response = await fetch(URI, {
         method: "GET",
         headers: {
@@ -41,11 +41,9 @@ const SomeImage = () => {
       });
       const d = await response.json();
       console.log(d);
-
-      // store the data into our books variable
       setBooks(d.data);
     }
-  }, []);
+  }, [projectParams.projectName]);
 
   return (
     <>
@@ -59,7 +57,7 @@ const SomeImage = () => {
                 m={5}
                 maxW="600px"
                 w="full"
-                bg={useColorModeValue("#fff0f5", "#522d80")}
+                bg={useColorModeValue("#7f00ff", "gray.800")}
                 boxShadow="2xl"
                 rounded="lg"
                 pos="relative"
@@ -75,7 +73,7 @@ const SomeImage = () => {
                     <Heading
                       pr={5}
                       fontSize="xl"
-                      color={useColorModeValue("#7f00ff", "white")}
+                      color={useColorModeValue("white", "teal.200")}
                       fontFamily="body"
                       fontWeight={400}
                     >
@@ -84,9 +82,16 @@ const SomeImage = () => {
                     <Text
                       fontWeight={600}
                       fontSize="xl"
-                      color={useColorModeValue("#7f00ff", "white")}
+                      color={useColorModeValue("white", "teal.200")}
                     >
-                      {book.description}
+                      {book.type}
+                    </Text>
+                    <Text
+                      fontWeight={400}
+                      fontSize="l"
+                      color={useColorModeValue("white", "teal.200")}
+                    >
+                      {book.status}
                     </Text>
                     <Button
                       as="a"
@@ -97,7 +102,7 @@ const SomeImage = () => {
                         bg: "FF007A",
                       }}
                       // TODO: use project URL here
-                      href="/projects/"
+                      href="/projects"
                       rightIcon={<ArrowRightIcon />}
                     >
                       Open

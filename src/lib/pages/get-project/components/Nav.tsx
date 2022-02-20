@@ -23,11 +23,6 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 
 import ThemeToggle from "lib/components/layout/ThemeToggle";
 
-const Logout = (event) => {
-  event.preventDefault();
-  window.location = "/";
-}
-
 const Links = ["quii"];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
@@ -44,6 +39,11 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     {children}
   </Link>
 );
+
+const Logout = (event) => {
+  event.preventDefault();
+  window.location = "/";
+}
 
 const Nav = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

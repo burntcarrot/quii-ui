@@ -24,8 +24,7 @@ const HeaderSS = () => {
     >
       <Heading as="a" size="lg" href="/">
         <Flex marginY={4} justifyContent="center" gridGap={2}>
-          {/* <AiFillGithub /> */}
-          pm
+          quii.
         </Flex>
       </Heading>
 
@@ -51,10 +50,10 @@ const HeaderSS = () => {
             fontSize="sm"
             fontWeight={600}
             color="white"
-            bg="pink.500"
+            bg="#FF007A"
             href="/register"
             _hover={{
-              bg: "pink.600",
+              bg: "pink.400",
             }}
           >
             Sign Up

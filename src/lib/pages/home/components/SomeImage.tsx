@@ -30,14 +30,12 @@ const Hero = () => {
           lineHeight="110%"
         >
           Project management{" "}
-          <Text as="span" color="orange.400">
+          <Text as="span" color="#FF007A">
             made easy
           </Text>
         </Heading>
         <Text color="gray.500" maxW="3xl">
-          Never miss a meeting. Never be late for one too. Keep track of your
-          meetings and receive smart reminders in appropriate times. Read your
-          smart “Daily Agenda” every morning.
+          Ship quickly with quii. Fluid project management with zero friction and offline support. 🚀 The ideal project management tool for indie devs.
         </Text>
         <Stack spacing={6} direction="row">
           <Button
@@ -45,11 +43,10 @@ const Hero = () => {
             href="/register"
             rounded="full"
             px={6}
-            colorScheme="orange"
-            bg="orange.400"
-            _hover={{ bg: "orange.500" }}
+            bg="#FF007A"
+            _hover={{ bg: "pink.500" }}
           >
-            Get started
+            <Text color="white">Get started</Text>
           </Button>
           <Button rounded="full" px={6}>
             Learn more

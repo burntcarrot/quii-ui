@@ -1,16 +1,12 @@
 import { Box, Heading, Icon, Text } from "@chakra-ui/react";
-import { BiWinkSmile } from "react-icons/bi";
 
 const SomeText = () => {
   return (
     <Box textAlign="center">
       <Heading>
-        Hello
-        <Icon as={BiWinkSmile} />
+        Tasks
       </Heading>
-      <Text>
-        This is a vite react template with Chakra-UI and TypeScript setup.
-      </Text>
+      <Text>Here are your tasks:</Text>
     </Box>
   );
 };

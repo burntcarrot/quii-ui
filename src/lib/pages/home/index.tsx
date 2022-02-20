@@ -1,6 +1,5 @@
 import { Grid } from "@chakra-ui/react";
 
-import CTASection from "./components/CTASection";
 import SimpleThreeColumns from "./components/Features";
 import Hero from "./components/SomeImage";
 // import SomeText from "./components/SomeText";
@@ -8,9 +7,7 @@ import Hero from "./components/SomeImage";
 const Home = () => {
   return (
     <Grid gap={4}>
-      {/* <SomeText /> */}
       <Hero />
-      {/* <CTASection /> */}
       <SimpleThreeColumns />
     </Grid>
   );

@@ -1,4 +1,4 @@
-# pm-ui
+# quii-ui
 
 UI for PM.
 

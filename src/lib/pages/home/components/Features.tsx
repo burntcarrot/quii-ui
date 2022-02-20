@@ -1,6 +1,6 @@
 import { Box, SimpleGrid, Icon, Text, Stack, Flex } from "@chakra-ui/react";
 import type { ReactElement } from "react";
-import { FcAssistant, FcDonate, FcInTransit } from "react-icons/fc";
+import { FcPlanner, FcSerialTasks, FcTodoList } from "react-icons/fc";
 
 interface FeatureProps {
   title: string;
@@ -34,19 +34,19 @@ export default function SimpleThreeColumns() {
     <Box p={4}>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
         <Feature
-          icon={<Icon as={FcAssistant} w={10} h={10} />}
-          title="Lifetime Support"
-          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+          icon={<Icon as={FcSerialTasks} w={10} h={10} />}
+          title="Zero-clutter UI"
+          text="Most task management tools are cluttered. quii isn't. quii keeps the UI spacious and easy to interact with."
         />
         <Feature
-          icon={<Icon as={FcDonate} w={10} h={10} />}
-          title="Unlimited Donations"
-          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+          icon={<Icon as={FcPlanner} w={10} h={10} />}
+          title="Fluid management"
+          text="Too much distraction due to details? quii makes it easier to handle tasks."
         />
         <Feature
-          icon={<Icon as={FcInTransit} w={10} h={10} />}
-          title="Instant Delivery"
-          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+          icon={<Icon as={FcTodoList} w={10} h={10} />}
+          title="Friction-less task management"
+          text="Task management with minimalism. Create tasks with ease."
         />
       </SimpleGrid>
     </Box>
