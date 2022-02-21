@@ -10,10 +10,11 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  FormHelperText,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
-import { useCookies } from "react-cookie";
 
 import ErrorMessage from "./ErrorMessage";
 
@@ -40,22 +41,19 @@ const useWindowSize = () => {
 };
 
 export default function RegisterPage() {
-  // const [username, setUsername] = useState("");
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
   const [github, setGithub] = useState("");
   const [error, setError] = useState("");
   const [created, setCreated] = useState(false);
-  // const [cookies, setCookie] = useCookies(["token"]);
   const username = document.cookie.replace(
     /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
     "$1"
   );
 
-  const { width, height } = useWindowSize();
+  const isError = projectName.split(" ").length > 1;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const projectURL = `/projects/${projectName}`;
+  const { width, height } = useWindowSize();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -63,6 +61,9 @@ export default function RegisterPage() {
     try {
       await new Promise<void>((resolve, reject) => {
         setTimeout(async () => {
+          // use dash
+          projectName.replace(/\s/g , "-");
+
           const token = document.cookie.replace(
             /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
             "$1"
@@ -84,9 +85,10 @@ export default function RegisterPage() {
           const data = await response.json();
           // eslint-disable-next-line no-console
           console.log(data);
-          if (data !== undefined) {
+          if (data.data !== null) {
             resolve();
           } else {
+            setError("Failed to create project.");
             reject();
           }
         }, 3000);
@@ -96,7 +98,6 @@ export default function RegisterPage() {
       // window.location = "/projects";
       // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
-      setError("Invalid username or password");
       // setUsername("");
       setProjectName("");
       setDescription("");
@@ -124,13 +125,13 @@ export default function RegisterPage() {
             <Button
               as="a"
               size="lg"
-              bg="pink.400"
+              bg="#FF007A"
               color="white"
               _hover={{
                 bg: "pink.500",
               }}
-              // TODO: use project URL here
-              href="/projects"
+
+              href={"/projects/" + projectName.toLowerCase().replace(/\s/g , "-")}
               rightIcon={<ArrowRightIcon />}
             >
               Take me to the project
@@ -140,10 +141,10 @@ export default function RegisterPage() {
           <>
             <Stack align="center">
               <Heading fontSize="4xl" textAlign="center">
-                Create Project
+                Create a Project
               </Heading>
               <Text fontSize="lg" color="gray.600">
-                Create a new project ✌️
+                Start your journey. 🚀
               </Text>
             </Stack>
             <Box
@@ -156,16 +157,7 @@ export default function RegisterPage() {
               <form onSubmit={handleSubmit}>
                 {error && <ErrorMessage message={error} />}
                 <Stack spacing={4}>
-                  {/* <FormControl id="username" isRequired>
-                    <FormLabel>Username</FormLabel>
-                    <Input
-                      type="text"
-                      onChange={(event) =>
-                        setUsername(event.currentTarget.value)
-                      }
-                    />
-                  </FormControl> */}
-                  <FormControl id="projectName" isRequired>
+                  <FormControl id="projectName" isRequired isInvalid={isError}>
                     <FormLabel>Project Name</FormLabel>
                     <Input
                       type="text"
@@ -173,6 +165,15 @@ export default function RegisterPage() {
                         setProjectName(event.currentTarget.value)
                       }
                     />
+                    {!isError ? (
+                      <FormHelperText>
+                        Please use a project name without spaces.
+                      </FormHelperText>
+                    ) : (
+                      <FormErrorMessage>
+                        No! Project name should not contain spaces.
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
                   <FormControl id="description" isRequired>
                     <FormLabel>Project Description</FormLabel>
@@ -194,10 +195,10 @@ export default function RegisterPage() {
                     <Button
                       loadingText="Submitting"
                       size="lg"
-                      bg="blue.400"
+                      bg="#7f00ff"
                       color="white"
                       _hover={{
-                        bg: "blue.500",
+                        bg: "#8f00ff",
                       }}
                       type="submit"
                     >

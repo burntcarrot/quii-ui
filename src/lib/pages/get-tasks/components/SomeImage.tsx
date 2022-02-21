@@ -22,7 +22,6 @@ const SomeImage = () => {
     getData();
 
     async function getData() {
-      // const { token } = cookies.token;
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/,
         "$1"
@@ -41,6 +40,11 @@ const SomeImage = () => {
       });
       const d = await response.json();
       console.log(d);
+      // let tid = 0;
+      // for (let x in d.data) {
+      //   tid += 1;
+      //   x.task_id = "task_" + tid.toString();
+      // }
       setBooks(d.data);
     }
   }, [projectParams.projectName]);
@@ -57,7 +61,7 @@ const SomeImage = () => {
                 m={5}
                 maxW="600px"
                 w="full"
-                bg={useColorModeValue("#7f00ff", "gray.800")}
+                bg={useColorModeValue("#fff0f5", "gray.800")}
                 boxShadow="2xl"
                 rounded="lg"
                 pos="relative"
@@ -73,7 +77,7 @@ const SomeImage = () => {
                     <Heading
                       pr={5}
                       fontSize="xl"
-                      color={useColorModeValue("white", "teal.200")}
+                      color={useColorModeValue("#7f00ff", "white")}
                       fontFamily="body"
                       fontWeight={400}
                     >
@@ -82,14 +86,14 @@ const SomeImage = () => {
                     <Text
                       fontWeight={600}
                       fontSize="xl"
-                      color={useColorModeValue("white", "teal.200")}
+                      color={useColorModeValue("#7f00ff", "white")}
                     >
                       {book.type}
                     </Text>
                     <Text
                       fontWeight={400}
                       fontSize="l"
-                      color={useColorModeValue("white", "teal.200")}
+                      color={useColorModeValue("#7f00ff", "white")}
                     >
                       {book.status}
                     </Text>
@@ -101,8 +105,7 @@ const SomeImage = () => {
                       _hover={{
                         bg: "FF007A",
                       }}
-                      // TODO: use project URL here
-                      href="/projects"
+                      href={"/projects/" + projectParams.projectName + "/tasks/" + book.id}
                       rightIcon={<ArrowRightIcon />}
                     >
                       Open

@@ -50,9 +50,13 @@ export const routes: Array<RouteProps> = [
     component: GetTaskByID,
   },
   {
-    path: "/projects/:projectName/tasks/new",
+    path: "/create-task",
     component: CreateTask,
   },
+  // {
+  //   path: "/projects/:projectName/tasks/new",
+  //   component: CreateTask,
+  // },
 ];
 
 export const privateRoutes: Array<RouteProps> = [];

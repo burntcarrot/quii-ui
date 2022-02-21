@@ -1,6 +1,6 @@
 import { Grid } from "@chakra-ui/react";
 
-import Nav from "../projects/components/Nav";
+import Nav from "../get-task-by-id/components/Nav";
 
 import RegisterPage from "./components/SomeImage";
 

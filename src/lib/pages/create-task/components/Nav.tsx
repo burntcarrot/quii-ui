@@ -18,18 +18,12 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import type { ReactNode } from "react";
-import { useParams } from "react-router-dom";
 import { AiOutlineLogout } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 
 import ThemeToggle from "lib/components/layout/ThemeToggle";
 
 const Links = ["quii"];
-
-const Logout = (event) => {
-  event.preventDefault();
-  window.location = "/";
-}
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -46,10 +40,13 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
+const Logout = (event) => {
+  event.preventDefault();
+  window.location = "/";
+}
+
 const Nav = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const projectParams = useParams();
-  const new_url = `/projects/${projectParams.projectName}/tasks/new`
 
   return (
     <Box bg={useColorModeValue("white", "gray.800")} px={4}>
@@ -69,9 +66,11 @@ const Nav = () => {
         <Flex alignItems="center">
           <Button
             as="a"
-            href={new_url}
+            // href="/create-task"
+            href={window.location + "/new"}
             variant="solid"
-            colorScheme="teal"
+            bg="#FF007A"
+            colorScheme={"pink"}
             size="sm"
             mr={4}
             leftIcon={<AddIcon />}

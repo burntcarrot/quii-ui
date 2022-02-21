@@ -1,6 +1,5 @@
 import { Grid } from "@chakra-ui/react";
 
-import CTASection from "./components/CTASection";
 import Nav from "./components/Nav";
 import SomeImage from "./components/SomeImage";
 import SomeText from "./components/SomeText";
@@ -11,7 +10,6 @@ const Projects = () => {
       <Nav />
       <SomeText />
       <SomeImage />
-      {/* <CTASection /> */}
     </Grid>
   );
 };

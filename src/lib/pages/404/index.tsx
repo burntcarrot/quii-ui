@@ -19,7 +19,7 @@ const Page404 = () => {
       <Heading></Heading>
 
       <Box maxWidth={[400, 600]} marginX="auto">
-        <Text fontWeight={600} fontSize={"2xl"}>Meet quii. You went the wrong way.</Text>
+        <Text fontWeight={600} fontSize={"2xl"}>Quii found you taking the wrong route.</Text>
         <Text fontSize={256}>🐥</Text>
       </Box>
 

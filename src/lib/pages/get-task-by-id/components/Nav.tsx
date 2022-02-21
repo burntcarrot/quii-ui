@@ -15,22 +15,17 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Text,
   Heading,
 } from "@chakra-ui/react";
-import type { ReactNode } from "react";
-import { useParams } from "react-router-dom";
 import { AiOutlineLogout } from "react-icons/ai";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { useEffect, ReactNode } from "react";
+import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import ThemeToggle from "lib/components/layout/ThemeToggle";
 
 const Links = ["quii"];
-
-const Logout = (event) => {
-  event.preventDefault();
-  window.location = "/";
-}
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -47,10 +42,22 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
+const Logout = (event) => {
+  event.preventDefault();
+  window.location = "/";
+}
+
 const Nav = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const projectParams = useParams();
-  const new_url = `/projects/${projectParams.projectName}/tasks/new`
+  const [cookies, setCookie] = useCookies(["project"]);
+
+  let new_url = window.location + "/new";
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setCookie("project", projectParams.projectName, { path: "/" });
+    window.location = "/create-task"
+  };
 
   return (
     <Box bg={useColorModeValue("white", "gray.800")} px={4}>
@@ -70,7 +77,10 @@ const Nav = () => {
         <Flex alignItems="center">
           <Button
             as="a"
+            // href="/create-task"
+            onClick={handleSubmit}
             href={new_url}
+            // href="#"
             variant="solid"
             bg="#FF007A"
             colorScheme={"pink"}
@@ -78,7 +88,7 @@ const Nav = () => {
             mr={4}
             leftIcon={<AddIcon />}
           >
-            <Text color="white">New Task</Text>
+            New Task
           </Button>
           <Menu>
             <MenuButton

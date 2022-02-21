@@ -103,10 +103,10 @@ export default function LoginPage() {
               <Stack spacing={10}>
                 <Button
                   type="submit"
-                  bg="blue.400"
+                  bg="#7f00ff"
                   color="white"
                   _hover={{
-                    bg: "blue.500",
+                    bg: "#8f00ff",
                   }}
                 >
                   Sign in

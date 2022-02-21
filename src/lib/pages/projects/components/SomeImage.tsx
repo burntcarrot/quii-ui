@@ -97,7 +97,7 @@ const SomeImage = () => {
                         bg: "FF007A",
                       }}
                       // TODO: use project URL here
-                      href="/projects/"
+                      href={"/projects/" + book.name.toLowerCase()}
                       rightIcon={<ArrowRightIcon />}
                     >
                       Open

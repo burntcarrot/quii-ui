@@ -43,11 +43,16 @@ export default function RegisterPage() {
   const [taskName, setTaskName] = useState("");
   const [type, setType] = useState("");
   const [status, setStatus] = useState("");
+  const [task_id, setTaskID] = useState("");
   const [error, setError] = useState("");
   const [created, setCreated] = useState(false);
   // const [cookies, setCookie] = useCookies(["token"]);
   const username = document.cookie.replace(
     /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
+    "$1"
+  );
+  const projectName = document.cookie.replace(
+    /(?:(?:^|.*;\s*)project\s*\=\s*([^;]*).*$)|^.*$/,
     "$1"
   );
 
@@ -69,10 +74,10 @@ export default function RegisterPage() {
             "$1"
           );
 
-          const URI = `http://localhost:8080/api/u/${username}/projects/${projectParams.projectName}/tasks/new`;
+          const URI = `http://localhost:8080/api/u/${username}/projects/${projectName}/tasks/new`;
           const body_post = JSON.stringify({
             username,
-            project_name: projectParams.projectName,
+            project_name: projectName,
             name: taskName,
             type: type,
             status: status,
@@ -85,7 +90,7 @@ export default function RegisterPage() {
             },
             body: JSON.stringify({
               username,
-              project_name: projectParams.projectName,
+              project_name: projectName,
               name: taskName,
               type: type,
               status: status,
@@ -95,7 +100,8 @@ export default function RegisterPage() {
           // eslint-disable-next-line no-console
           console.log(body_post);
           console.log(data);
-          if (data !== undefined) {
+          setTaskID(data.data.id)
+          if (data.data !== null) {
             resolve();
           } else {
             reject();
@@ -107,7 +113,7 @@ export default function RegisterPage() {
       // window.location = "/projects";
       // eslint-disable-next-line @typescript-eslint/no-shadow
     } catch (error) {
-      setError("Invalid username or password");
+      setError("Failed to create a task.");
       setTaskName("");
       setType("");
       setStatus("");
@@ -129,31 +135,31 @@ export default function RegisterPage() {
               Woohoo!
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              You just a created a new project! 🥳
+              You just a created a new task! 🥳
             </Text>
             <Button
               as="a"
               size="lg"
-              bg="pink.400"
+              bg="#FF007A"
               color="white"
               _hover={{
                 bg: "pink.500",
               }}
               // TODO: use project URL here
-              href="/projects"
+              href={"/projects/" + projectName + "/tasks/" + task_id}
               rightIcon={<ArrowRightIcon />}
             >
-              Take me to the task
+              Take me to the task!
             </Button>
           </>
         ) : (
           <>
             <Stack align="center">
               <Heading fontSize="4xl" textAlign="center">
-                Create Task
+                Create a Task
               </Heading>
               <Text fontSize="lg" color="gray.600">
-                Create a new task ✌️
+                Minimal tasks. More focus. 🎯
               </Text>
             </Stack>
             <Box
@@ -195,10 +201,10 @@ export default function RegisterPage() {
                     <Button
                       loadingText="Submitting"
                       size="lg"
-                      bg="blue.400"
+                      bg="#7f00ff"
                       color="white"
                       _hover={{
-                        bg: "blue.500",
+                        bg: "#8f00ff",
                       }}
                       type="submit"
                     >

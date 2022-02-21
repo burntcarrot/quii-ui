@@ -43,8 +43,8 @@ const Hero = () => {
             href="/register"
             rounded="full"
             px={6}
-            bg="#FF007A"
-            _hover={{ bg: "pink.500" }}
+            bg="#7f00ff"
+            _hover={{ bg: "#8f00ff" }}
           >
             <Text color="white">Get started</Text>
           </Button>

@@ -110,12 +110,12 @@ export default function RegisterPage() {
               Congratulations!
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Welcome to PM! 🥳
+              Welcome to Quii! 🥳
             </Text>
             <Button
               as="a"
               size="lg"
-              bg="pink.400"
+              bg="#FF007A"
               color="white"
               _hover={{
                 bg: "pink.500",
@@ -198,10 +198,10 @@ export default function RegisterPage() {
                       type="submit"
                       loadingText="Submitting"
                       size="lg"
-                      bg="blue.400"
+                      bg="#7f00ff"
                       color="white"
                       _hover={{
-                        bg: "blue.500",
+                        bg: "#8f00ff",
                       }}
                     >
                       Sign up
